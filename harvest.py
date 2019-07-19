@@ -126,10 +126,24 @@ class Melon(object):
                 self.field_number != 3)
 
 
-def make_melons(melon_types):
+def make_melons(melon_dictionary,file_path):
     """Returns a list of Melon objects."""
+    
+    list_of_melons = []
+    melon_file = open(file_path)
 
-    # Fill in the rest
+    for line in melon_file:
+        tokens = (line.rstrip()).split('|')
+        # Melon | type | shape_rating | color_rating | field_num | harvested_by
+        new_melon = Melon(melon_dictionary[tokens[1]],
+                          tokens[2],
+                          tokens[3], 
+                          tokens[4], 
+                          tokens[5])
+        list_of_melons.append(new_melon)
+
+    return list_of_melons
+    
 
 def get_sellability_report(melons):
     """Given a list of melon object, prints whether each one is sellable."""
@@ -138,3 +152,9 @@ def get_sellability_report(melons):
 
 
 
+
+
+
+if __name__ == '__main__':
+    dictionary_of_melons = make_melon_type_lookup(make_melon_types())
+    print(make_melons(dictionary_of_melons, 'melons.txt'))
